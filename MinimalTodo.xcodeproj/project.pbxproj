@@ -16,7 +16,7 @@
 		02E5BB6821DB89F500EAEF93 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02E5BB5A21DB894E00EAEF93 /* SQLite.framework */; };
 		02E5BB6921DB89FB00EAEF93 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02E5BB5A21DB894E00EAEF93 /* SQLite.framework */; };
 		02E5BB6A21DB89FB00EAEF93 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 02E5BB5A21DB894E00EAEF93 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		02E5BB6F21DB8B3300EAEF93 /* TaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E5BB6E21DB8B3300EAEF93 /* TaskTableViewController.swift */; };
+		02E5BB6F21DB8B3300EAEF93 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E5BB6E21DB8B3300EAEF93 /* TaskViewController.swift */; };
 		02E5BB7121DB8D5E00EAEF93 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E5BB7021DB8D5E00EAEF93 /* Task.swift */; };
 /* End PBXBuildFile section */
 
@@ -121,7 +121,7 @@
 		02E5BB4121DB88F800EAEF93 /* MinimalTodoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimalTodoUITests.swift; sourceTree = "<group>"; };
 		02E5BB4321DB88F800EAEF93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02E5BB4F21DB894D00EAEF93 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../../../Downloads/SQLite-4.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
-		02E5BB6E21DB8B3300EAEF93 /* TaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewController.swift; sourceTree = "<group>"; };
+		02E5BB6E21DB8B3300EAEF93 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		02E5BB7021DB8D5E00EAEF93 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,7 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				02E5BB2121DB88F400EAEF93 /* AppDelegate.swift */,
-				02E5BB6E21DB8B3300EAEF93 /* TaskTableViewController.swift */,
+				02E5BB6E21DB8B3300EAEF93 /* TaskViewController.swift */,
 				02E5BB2521DB88F400EAEF93 /* Main.storyboard */,
 				02E5BB2821DB88F800EAEF93 /* Assets.xcassets */,
 				02E5BB2A21DB88F800EAEF93 /* LaunchScreen.storyboard */,
@@ -418,7 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02E5BB6F21DB8B3300EAEF93 /* TaskTableViewController.swift in Sources */,
+				02E5BB6F21DB8B3300EAEF93 /* TaskViewController.swift in Sources */,
 				02E5BB7121DB8D5E00EAEF93 /* Task.swift in Sources */,
 				02E5BB2221DB88F400EAEF93 /* AppDelegate.swift in Sources */,
 			);
