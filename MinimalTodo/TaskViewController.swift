@@ -48,17 +48,29 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         createTableTask();
-        let task1 = Task(title: "dihoc", date: "12/05/2018")
+        let task1 = Task(title: "dihocccfcfffdgfdgdfgdfgdfgdfgdfgdfgdfgfdgdfgfdgdfgdfgdfgdfgdfgdf", date: "12/05/2018")
         let task2 = Task(title: "di choi", date: "26/04/2011")
         let task3 = Task(title: "di", date: "26/04/2011")
         insertTableTask(task: task1)
         insertTableTask(task: task2)
         insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
+        insertTableTask(task: task3)
 
         deleteTask(id: 3)
         tasks = selectAllTasks()
-        print ("--> viewDidLoad fin")
-    }
+        print ("--> viewDidLoad fin")    }
 
     // MARK: - Table view data source
 
@@ -78,8 +90,12 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Configure the cell...
         cell.textLabel?.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
         cell.detailTextLabel?.text = "\(tasks[indexPath.row].getDate())"
+        
+        
+        
         return cell
     }
+
    
 
     /*
