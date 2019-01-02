@@ -48,26 +48,12 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         createTableTask();
-        let task1 = Task(title: "dihocccfcfffdgfdgdfgdfgdfgdfgdfgdfgdfgfdgdfgfdgdfgdfgdfgdfgdfgdf", date: "12/05/2018")
-        let task2 = Task(title: "di choi", date: "26/04/2011")
-        let task3 = Task(title: "di", date: "26/04/2011")
-        insertTableTask(task: task1)
-        insertTableTask(task: task2)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-        insertTableTask(task: task3)
-
+//        let task1 = Task(title: "dihocccfcfffdgfdgdfgdfgdfgdfgdfgdfgdfgfdgdfgfdgdfgdfgdfgdfgdfgdf", date: "12/05/2018")
+//        let task2 = Task(title: "di choi", date: "26/04/2011")
+//        let task3 = Task(title: "di", date: "26/04/2011")
+//        insertTableTask(task: task1)
+//        insertTableTask(task: task2)
+//        insertTableTask(task: task3)
         deleteTask(id: 3)
         tasks = selectAllTasks()
         print ("--> viewDidLoad fin")    }
@@ -90,13 +76,26 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Configure the cell...
         cell.textLabel?.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
         cell.detailTextLabel?.text = "\(tasks[indexPath.row].getDate())"
-        
-        
-        
         return cell
     }
 
-   
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete{
+            let task = tasks[indexPath.row]
+            deleteTask(id: task.getId())
+            tasks.remove(at: indexPath.row)
+            myTableView.reloadData()
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "Modify"){(action,view,completion) in
+            	completion(false)
+                print("chuyencontroller ")
+        }
+        action.backgroundColor = .green
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 
     /*
     // Override to support conditional editing of the table view.
