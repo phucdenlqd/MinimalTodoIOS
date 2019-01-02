@@ -7,15 +7,13 @@
 //
 
 import UIKit
-var dataDate: String = ""
-var dataTime: String = ""
 class DateTimeViewController: UIViewController {
-    
-    var aaa:String = "bb"
     @IBOutlet weak var txtFieldTime: UITextField!
     var datePicker: UIDatePicker?
     @IBOutlet weak var txtFieldDate: UITextField!
     var timePicker: UIDatePicker?
+    var date:String = ""
+    var time:String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         datePicker = UIDatePicker()
@@ -33,11 +31,6 @@ class DateTimeViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         txtFieldDate.inputView = datePicker
         txtFieldTime.inputView = timePicker
-        // Do any additional setup after loading the view.
-        
-//        dataTime = txtFieldTime.text!
-        
-        
     }
     @objc func viewTapped(gestureRecogniser: UITapGestureRecognizer){
         view.endEditing(true)
@@ -47,7 +40,8 @@ class DateTimeViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         txtFieldDate.text = dateFormatter.string(from: datePicker.date)
-
+        date = dateFormatter.string(from: datePicker.date)
+        sendDateAndTimeToParent(date:date,time:time)
         view.endEditing(true)
     }
     
@@ -55,8 +49,38 @@ class DateTimeViewController: UIViewController {
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "HH:mm"
         txtFieldTime.text = timeFormatter.string(from: timePicker.date)
+        time = timeFormatter.string(from: timePicker.date)
         view.endEditing(true)
     }
+//    send date to addTodoViewControl
+    func sendDateAndTimeToParent(date:String,time:String){
+        let vc = parent as! AddTodoViewController
+        vc.dateAndTimeFromContainer(date: date, time: time)
+    }
+    
+    func dateAndTimeFromParent(date:String,time:String){
+        self.date = date
+        self.time = time
+        do {
+            try setPickers(date: date, time: time)
+            print("good string date")
+        } catch {
+            print(error)
+        }
+        
+        print("done")
+    }
+    
+    func setPickers(date:String,time:String){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        let stringDate:String=date+" "+time
+        print(stringDate)
+        let dateComplete = dateFormatter.date(from: stringDate)!
+        datePicker?.date = dateComplete
+        timePicker?.date = dateComplete
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

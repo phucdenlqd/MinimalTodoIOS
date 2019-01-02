@@ -182,14 +182,14 @@
 			isa = PBXGroup;
 			children = (
 				02E5BB2121DB88F400EAEF93 /* AppDelegate.swift */,
-				027C63BA21DC22E6003EED6A /* AddTodoViewController.swift */,
 				02E5BB6E21DB8B3300EAEF93 /* TaskViewController.swift */,
+				027C63BA21DC22E6003EED6A /* AddTodoViewController.swift */,
+				0265136F21DCB662007A8227 /* DateTimeViewController.swift */,
 				02E5BB2521DB88F400EAEF93 /* Main.storyboard */,
 				02E5BB2821DB88F800EAEF93 /* Assets.xcassets */,
 				02E5BB2A21DB88F800EAEF93 /* LaunchScreen.storyboard */,
 				02E5BB2D21DB88F800EAEF93 /* Info.plist */,
 				02E5BB7021DB8D5E00EAEF93 /* Task.swift */,
-				0265136F21DCB662007A8227 /* DateTimeViewController.swift */,
 			);
 			path = MinimalTodo;
 			sourceTree = "<group>";
