@@ -50,6 +50,7 @@ class DateTimeViewController: UIViewController {
         timeFormatter.dateFormat = "HH:mm"
         txtFieldTime.text = timeFormatter.string(from: timePicker.date)
         time = timeFormatter.string(from: timePicker.date)
+        sendDateAndTimeToParent(date:date,time:time)
         view.endEditing(true)
     }
 //    send date to addTodoViewControl

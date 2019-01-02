@@ -109,7 +109,7 @@
                                 <color key="backgroundColor" red="0.95873137949999998" green="0.56082044900000005" blue="0.001855380665" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="btnSendAction:" destination="8dI-ss-jlC" eventType="touchUpInside" id="HXr-tK-8Yf"/>
+                                    <segue destination="oUh-Dx-9yz" kind="show" identifier="clickButtonValidation" id="jSE-gT-XcG"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="khf-Qu-ilp">
@@ -220,4 +220,7 @@
             <point key="canvasLocation" x="1865" y="-703"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="jSE-gT-XcG"/>
+    </inferredMetricsTieBreakers>
 </document>

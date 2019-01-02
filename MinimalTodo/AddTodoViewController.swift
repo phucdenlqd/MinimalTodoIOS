@@ -11,13 +11,16 @@ import UIKit
 class AddTodoViewController: UIViewController {
 
 
-    @IBOutlet weak var testLabel: UILabel!
+//    @IBOutlet weak var testLabel: UILabel!
     @IBOutlet weak var txtFieldTitle: UITextField!
     @IBOutlet weak var containerDate: UIView!
     @IBOutlet weak var swDate: UISwitch!
     var hideDate:Bool = false
     var date:String = ""
     var time:String = ""
+    var taskId:Int?
+    // add or modify
+    var actionType = "add"
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,16 +34,23 @@ class AddTodoViewController: UIViewController {
         txtFieldTitle.layer.addSublayer(border)
         txtFieldTitle.layer.masksToBounds = true
         
+        if(actionType=="add"){
+            hideDate=true
+            let now = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "HH:mm"
+            setDateAndTime(date:dateFormatter.string(from: now),time:timeFormatter.string(from: now))
+            sendDateAndTimeToChild(date: self.date, time: self.time)
+        }else if actionType=="modify"{
+            hideDate=false
+//            chuyen qua dinh dang dau
+        }
         containerDate.isHidden=hideDate
         swDate.isOn = !hideDate
         
-        let now = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy"
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "HH:mm"
-        setDateAndTime(date:dateFormatter.string(from: now),time:timeFormatter.string(from: now))
-        sendDateAndTimeToChild(date: self.date, time: self.time)
+        
     }
     
     func setDateAndTime(date:String,time:String){
@@ -53,9 +63,7 @@ class AddTodoViewController: UIViewController {
         containerDate.isHidden=hideDate
     }
     
-    @IBAction func btnSendAction(_ sender: UIButton) {
-        print(self.date)
-    }
+
     
     func sendDateAndTimeToChild(date:String,time:String){
         let cvc = children.last as! DateTimeViewController
@@ -68,18 +76,25 @@ class AddTodoViewController: UIViewController {
     
     
     
-    // MARK: - Navigation
+//     MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        // Pass the selected object to the new view controller.
-//        if(segue.identifier == "dateTimeSegue"){
-//            let dateTimeController = segue.destination as! DateTimeViewController
-//            dateGot = dateTimeController.txtFieldDate.text
-//
-//        }
-//    }
+//     In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        if(segue.identifier == "clickButtonValidation"){
+            let vc = segue.destination as! TaskViewController
+            if actionType == "add" {
+                if hideDate {
+                    vc.doAddTask(title: txtFieldTitle.text ?? "missing title", date: "", time: "")
+                }else{
+                    vc.doAddTask(title: txtFieldTitle.text ?? "missing title",date: self.date,time: self.time)
+                }
+            }else if actionType == "modify"{
+//                vc.doModifyTask(taskId,txtFieldTitle.text,date,time)
+            }
+        }
+    }
     
 
 }

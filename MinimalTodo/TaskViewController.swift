@@ -54,12 +54,12 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        insertTableTask(task: task1)
 //        insertTableTask(task: task2)
 //        insertTableTask(task: task3)
-        deleteTask(id: 3)
         tasks = selectAllTasks()
         print ("--> viewDidLoad fin")    }
 
     // MARK: - Table view data source
 
+    
     public func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -141,6 +141,27 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func doAddTask(title:String,date:String,time:String){
+        do {
+            let documentDirectory = try
+                FileManager.default.url(for: .documentDirectory,
+                                        in: .userDomainMask, appropriateFor: nil, create: true)
+            let fileUrl=documentDirectory.appendingPathComponent("task").appendingPathExtension("sqlite3")
+            let base = try Connection(fileUrl.path)
+            self.database = base;
+        }
+        catch {
+            print (error)
+        }
+        var stringDateTime:String=date+" "+time
+        if stringDateTime == " "{
+            stringDateTime=""
+        }
+        let task1 = Task(title: title, date: date+" "+time)
+        insertTableTask(task: task1)
+        print("doneee")
+    }
     
     func createTableTask() {
         print ("--> createTableTask debut")
