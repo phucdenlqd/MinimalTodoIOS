@@ -10,7 +10,7 @@ import UIKit
 import SQLite
 import UserNotifications
 public var listTimer: [Timer] = []
-class TaskViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TaskViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate {
     
     @IBOutlet weak var buttonAdd: UIButton!
     @IBOutlet weak var myTableView: UITableView!
@@ -65,10 +65,10 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in})
         
+//        notifi(timeInterval: 5)
     }
 
     // MARK: - Table view data source
-
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -84,23 +84,23 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellTask", for: indexPath) as! TaskCell
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        
         if(tasks[indexPath.row].getDate() != ""){
             let dateTimer = dateFormatter.date(from: tasks[indexPath.row].getDate())
-            cell.timeInterval = dateTimer!.timeIntervalSinceNow
-            cell.titleTask = tasks[indexPath.row].getTitle()
-            cell.dateTask = tasks[indexPath.row].getDate()
-            if(round(cell.timeInterval!) > 0){
-                listTimer.append(cell.timer!)
-                print(cell.timeInterval!)
+            if(round(dateTimer!.timeIntervalSinceNow) > 0){
+                notifi(timeInterval: dateTimer!.timeIntervalSinceNow, titleTask: tasks[indexPath.row].getTitle(), dateTask: tasks[indexPath.row].getDate(), id: tasks[indexPath.row].getId())
             }
         }
-        
-        
 //        print("\(self.listTimer[indexPath.row])")
         
         // Configure the cell...
-        cell.textLabel?.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
-        cell.detailTextLabel?.text = "\(tasks[indexPath.row].getDate())"
+        cell.labelTitleTask.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
+        cell.labelSubtitleTask.text = "\(tasks[indexPath.row].getDate())"
+        cell.labelLogo.text=String(tasks[indexPath.row].getTitle().prefix(1)).uppercased()
+        if  tasks[indexPath.row].getDate() == ""{
+            cell.labelSubtitleTask.isHidden=true
+            cell.labelTitleTask.frame = CGRect(x: 67, y: (cell.frame.height - cell.labelTitleTask.frame.height) / 2, width: cell.labelTitleTask.frame.width, height: cell.labelSubtitleTask.frame.height)
+        }
         return cell
     }
 
@@ -109,8 +109,36 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
             let task = tasks[indexPath.row]
             deleteTask(id: task.getId())
             tasks.remove(at: indexPath.row)
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(task.getId())"])
             myTableView.reloadData()
         }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        //displaying the ios local notification when app is in foreground
+        completionHandler([.alert, .badge, .sound])
+    }
+    func notifi(timeInterval: TimeInterval, titleTask: String, dateTask: String, id: Int){
+        let content = UNMutableNotificationContent()
+        
+        //adding title, subtitle, body and badge
+        content.title = "TODO:"
+        content.subtitle = titleTask
+        content.body = dateTask
+        content.badge = 1
+        
+        //getting the notification trigger
+        //it will be called after 5 seconds
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        
+        //getting the notification request
+        let request = UNNotificationRequest(identifier: "\(id)", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        //adding the notification to notification center
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
