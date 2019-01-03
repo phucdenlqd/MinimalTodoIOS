@@ -15,17 +15,17 @@ class AddTodoViewController: UIViewController {
     @IBOutlet weak var txtFieldTitle: UITextField!
     @IBOutlet weak var containerDate: UIView!
     @IBOutlet weak var swDate: UISwitch!
-    var hideDate:Bool = false
+    var hideDate:Bool = true
     var date:String = ""
     var time:String = ""
-    var taskId:Int?
+    var toDoTitle:String = ""
+    var toDoId:Int=0
     // add or modify
     var actionType = "add"
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.txtFieldTitle.borderStyle = .none
-        self.txtFieldTitle.backgroundColor = UIColor.clear
+        txtFieldTitle.borderStyle = .none
+        txtFieldTitle.backgroundColor = UIColor.clear
         let border = CALayer()
         let width = CGFloat(2.0)
         border.borderColor = UIColor.white.cgColor
@@ -35,21 +35,35 @@ class AddTodoViewController: UIViewController {
         txtFieldTitle.layer.masksToBounds = true
         
         if(actionType=="add"){
-            hideDate=true
-            let now = Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd/MM/yyyy"
-            let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "HH:mm"
-            setDateAndTime(date:dateFormatter.string(from: now),time:timeFormatter.string(from: now))
-            sendDateAndTimeToChild(date: self.date, time: self.time)
+            setNowForPickers()
         }else if actionType=="modify"{
-            hideDate=false
-//            chuyen qua dinh dang dau
+            if !(time=="" && date=="") {
+                hideDate=false
+                print(date)
+                print(time)
+                sendDateAndTimeToChild(date: date, time: time)
+            }else{
+                setNowForPickers()
+            }
+            txtFieldTitle.text=toDoTitle
         }
         containerDate.isHidden=hideDate
         swDate.isOn = !hideDate
         
+        print(toDoTitle)
+        print(toDoId)
+        print(date)
+        print(time)
+    }
+    
+    func setNowForPickers(){
+        let now = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        setDateAndTime(date:dateFormatter.string(from: now),time:timeFormatter.string(from: now))
+        sendDateAndTimeToChild(date: self.date, time: self.time)
         
     }
     
@@ -63,8 +77,6 @@ class AddTodoViewController: UIViewController {
         containerDate.isHidden=hideDate
     }
     
-
-    
     func sendDateAndTimeToChild(date:String,time:String){
         let cvc = children.last as! DateTimeViewController
         cvc.dateAndTimeFromParent(date: date, time: time)
@@ -73,8 +85,6 @@ class AddTodoViewController: UIViewController {
     func dateAndTimeFromContainer(date:String,time:String) {
         setDateAndTime(date: date, time: time)
     }
-    
-    
     
 //     MARK: - Navigation
 
@@ -85,13 +95,9 @@ class AddTodoViewController: UIViewController {
         if(segue.identifier == "clickButtonValidation"){
             let vc = segue.destination as! TaskViewController
             if actionType == "add" {
-                if hideDate {
-                    vc.doAddTask(title: txtFieldTitle.text ?? "missing title", date: "", time: "")
-                }else{
-                    vc.doAddTask(title: txtFieldTitle.text ?? "missing title",date: self.date,time: self.time)
-                }
+                vc.doAddTask(title: txtFieldTitle.text!,date: hideDate ? "" : self.date ,time: hideDate ? "" : self.time)
             }else if actionType == "modify"{
-//                vc.doModifyTask(taskId,txtFieldTitle.text,date,time)
+                vc.doUpdateTask(idTask: toDoId,title: txtFieldTitle.text!,date: hideDate ? "" : self.date,time: hideDate ? "" : self.time)
             }
         }
     }

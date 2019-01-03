@@ -22,13 +22,24 @@ class DateTimeViewController: UIViewController {
         datePicker?.datePickerMode = .date
         timePicker?.datePickerMode = .time
         
-        datePicker?.addTarget(self, action: #selector(DateTimeViewController.dateChanged(datePicker:)), for: .valueChanged)
+        //Toolbar
+//        let toolbarDatePicker = UIToolbar();
+//        toolbarDatePicker.sizeToFit()
+//
+//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker))
+//        let spaceButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+//
+//        toolbarDatePicker.setItems([doneButton,spaceButton,cancelButton], animated: <#T##Bool#>)
         
+        datePicker?.addTarget(self, action: #selector(DateTimeViewController.dateChanged(datePicker:)), for: .valueChanged)
+
         timePicker?.addTarget(self, action: #selector(DateTimeViewController.timeChanged(timePicker:)), for: .valueChanged)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DateTimeViewController.viewTapped(gestureRecogniser:)))
 
         view.addGestureRecognizer(tapGesture)
+        
         txtFieldDate.inputView = datePicker
         txtFieldTime.inputView = timePicker
     }
@@ -80,6 +91,8 @@ class DateTimeViewController: UIViewController {
         let dateComplete = dateFormatter.date(from: stringDate)!
         datePicker?.date = dateComplete
         timePicker?.date = dateComplete
+        txtFieldDate.text=date
+        txtFieldTime.text=time
     }
     
     override func didReceiveMemoryWarning() {

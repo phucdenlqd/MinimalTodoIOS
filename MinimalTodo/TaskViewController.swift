@@ -32,7 +32,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 //         self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
+        self.navigationItem.hidesBackButton=true
         print ("--> viewDidLoad debut")
         // Do any additional setup after loading the view, typically from a nib.
         do {
@@ -90,13 +90,34 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "Modify"){(action,view,completion) in
-            	completion(false)
-                print("chuyencontroller ")
+            completion(false)
+            print("chuyencontroller ")
         }
         action.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [action])
     }
-
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        myTableView.deselectRow(at: indexPath, animated: true)
+        
+        let task = tasks[indexPath.row]
+        
+        let addToDoViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddToDo") as! AddTodoViewController
+        addToDoViewController.actionType = "modify"
+        addToDoViewController.toDoTitle = task.getTitle()
+        addToDoViewController.toDoId=task.getId()
+        
+        if  task.getDate() != "" {
+            print(task.getDate())
+            var dateStringArray=task.getDate().split(separator: " ")
+            addToDoViewController.date=String(dateStringArray[0])
+            addToDoViewController.time=String(dateStringArray[1])
+        }
+        
+        self.navigationController?.pushViewController(addToDoViewController, animated: true)
+    }
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -155,12 +176,34 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
             print (error)
         }
         var stringDateTime:String=date+" "+time
+        print(stringDateTime)
         if stringDateTime == " "{
             stringDateTime=""
         }
-        let task1 = Task(title: title, date: date+" "+time)
+        let task1 = Task(title: title, date: stringDateTime)
         insertTableTask(task: task1)
         print("doneee")
+    }
+    
+    func doUpdateTask(idTask:Int,title:String,date:String,time:String){
+        do {
+            let documentDirectory = try
+                FileManager.default.url(for: .documentDirectory,
+                                        in: .userDomainMask, appropriateFor: nil, create: true)
+            let fileUrl=documentDirectory.appendingPathComponent("task").appendingPathExtension("sqlite3")
+            let base = try Connection(fileUrl.path)
+            self.database = base;
+        }
+        catch {
+            print (error)
+        }
+        var stringDateTime:String=date+" "+time
+        print(stringDateTime)
+        if stringDateTime == " "{
+            stringDateTime=""
+        }
+        let task1 = Task(id:idTask, title: title, date: stringDateTime)
+        updateTask(id: idTask, newTask: task1)
     }
     
     func createTableTask() {
@@ -242,6 +285,20 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         print ("--> selectAllTasks fin")
         return tasks_result
+    }
+    
+    func updateTask(id:Int,newTask:Task) {
+        print ("--> updateTask debut")
+        let task = self.task_table.filter(self.task_id == id)
+        let updateUser = task.update (self.task_title <- newTask.getTitle(), self.task_date <- newTask.getDate())
+        do {
+            try self.database.run(updateUser)
+            print ("Task", id," modifié")
+        }
+        catch{
+            print("--> updateTask est en erreur")
+        }
+        print ("--> updateTask fin")
     }
     
     func deleteTask(id : Int ) {
