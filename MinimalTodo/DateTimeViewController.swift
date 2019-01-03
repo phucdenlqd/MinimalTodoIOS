@@ -23,27 +23,57 @@ class DateTimeViewController: UIViewController {
         timePicker?.datePickerMode = .time
         
         //Toolbar
-//        let toolbarDatePicker = UIToolbar();
-//        toolbarDatePicker.sizeToFit()
-//
-//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker))
-//        let spaceButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
-//
-//        toolbarDatePicker.setItems([doneButton,spaceButton,cancelButton], animated: <#T##Bool#>)
-        
-        datePicker?.addTarget(self, action: #selector(DateTimeViewController.dateChanged(datePicker:)), for: .valueChanged)
+        let toolbarDatePicker = UIToolbar()
+        toolbarDatePicker.sizeToFit()
+        let toolbarTimePicker = UIToolbar()
+        toolbarTimePicker.sizeToFit()
 
-        timePicker?.addTarget(self, action: #selector(DateTimeViewController.timeChanged(timePicker:)), for: .valueChanged)
+        let donedateButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker))
+        let donetimeButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donetimePicker))
+        let spaceButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButtonDate = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        let cancelButtonTime = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        toolbarDatePicker.setItems([donedateButton,spaceButton,cancelButtonDate], animated: true)
+        toolbarTimePicker.setItems([donetimeButton,spaceButton,cancelButtonTime], animated: true)
+        
+//        datePicker?.addTarget(self, action: #selector(DateTimeViewController.dateChanged(datePicker:)), for: .valueChanged)
+//
+//        timePicker?.addTarget(self, action: #selector(DateTimeViewController.timeChanged(timePicker:)), for: .valueChanged)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DateTimeViewController.viewTapped(gestureRecogniser:)))
 
         view.addGestureRecognizer(tapGesture)
         
+        txtFieldDate.inputAccessoryView = toolbarDatePicker
         txtFieldDate.inputView = datePicker
+        
+        txtFieldTime.inputAccessoryView = toolbarTimePicker
         txtFieldTime.inputView = timePicker
     }
     @objc func viewTapped(gestureRecogniser: UITapGestureRecognizer){
+        view.endEditing(true)
+    }
+    
+    @objc func cancelDatePicker(){
+        view.endEditing(true)
+    }
+    
+    @objc func donetimePicker(){
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        txtFieldTime.text = timeFormatter.string(from: timePicker!.date)
+        time = timeFormatter.string(from: timePicker!.date)
+        sendDateAndTimeToParent(date:date,time:time)
+        view.endEditing(true)
+    }
+    
+    @objc func donedatePicker(){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        txtFieldDate.text = dateFormatter.string(from: datePicker!.date)
+        date = dateFormatter.string(from: datePicker!.date)
+        sendDateAndTimeToParent(date:date,time:time)
         view.endEditing(true)
     }
     
