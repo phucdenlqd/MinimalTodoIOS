@@ -24,6 +24,7 @@ class AddTodoViewController: UIViewController {
     var actionType = "add"
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         txtFieldTitle.borderStyle = .none
         txtFieldTitle.backgroundColor = UIColor.clear
         let border = CALayer()
@@ -39,8 +40,6 @@ class AddTodoViewController: UIViewController {
         }else if actionType=="modify"{
             if !(time=="" && date=="") {
                 hideDate=false
-                print(date)
-                print(time)
                 sendDateAndTimeToChild(date: date, time: time)
             }else{
                 setNowForPickers()
@@ -49,11 +48,6 @@ class AddTodoViewController: UIViewController {
         }
         containerDate.isHidden=hideDate
         swDate.isOn = !hideDate
-        
-        print(toDoTitle)
-        print(toDoId)
-        print(date)
-        print(time)
     }
     
     func setNowForPickers(){
