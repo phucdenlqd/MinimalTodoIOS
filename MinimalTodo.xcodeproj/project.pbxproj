@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020F1AF421DE53BB00C35E58 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020F1AF321DE53BB00C35E58 /* TaskCell.swift */; };
 		0265137021DCB662007A8227 /* DateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0265136F21DCB662007A8227 /* DateTimeViewController.swift */; };
 		027C63BB21DC22E6003EED6A /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027C63BA21DC22E6003EED6A /* AddTodoViewController.swift */; };
 		02E5BB2221DB88F400EAEF93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E5BB2121DB88F400EAEF93 /* AppDelegate.swift */; };
@@ -110,6 +111,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		020F1AF321DE53BB00C35E58 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		0265136F21DCB662007A8227 /* DateTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeViewController.swift; sourceTree = "<group>"; };
 		027C63BA21DC22E6003EED6A /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
 		02E5BB1E21DB88F400EAEF93 /* MinimalTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MinimalTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +192,7 @@
 				02E5BB2A21DB88F800EAEF93 /* LaunchScreen.storyboard */,
 				02E5BB2D21DB88F800EAEF93 /* Info.plist */,
 				02E5BB7021DB8D5E00EAEF93 /* Task.swift */,
+				020F1AF321DE53BB00C35E58 /* TaskCell.swift */,
 			);
 			path = MinimalTodo;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				02E5BB6F21DB8B3300EAEF93 /* TaskViewController.swift in Sources */,
 				02E5BB7121DB8D5E00EAEF93 /* Task.swift in Sources */,
 				0265137021DCB662007A8227 /* DateTimeViewController.swift in Sources */,
+				020F1AF421DE53BB00C35E58 /* TaskCell.swift in Sources */,
 				02E5BB2221DB88F400EAEF93 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

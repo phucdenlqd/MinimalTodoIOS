@@ -12,6 +12,7 @@ class AddTodoViewController: UIViewController {
 
 
 //    @IBOutlet weak var testLabel: UILabel!
+    @IBOutlet weak var buttonSend: UIButton!
     @IBOutlet weak var txtFieldTitle: UITextField!
     @IBOutlet weak var containerDate: UIView!
     @IBOutlet weak var swDate: UISwitch!
@@ -24,7 +25,7 @@ class AddTodoViewController: UIViewController {
     var actionType = "add"
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        buttonSend.layer.cornerRadius = buttonSend.frame.height / 2
         txtFieldTitle.borderStyle = .none
         txtFieldTitle.backgroundColor = UIColor.clear
         let border = CALayer()

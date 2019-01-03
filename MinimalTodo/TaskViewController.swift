@@ -8,12 +8,13 @@
 
 import UIKit
 import SQLite
-
+import UserNotifications
+public var listTimer: [Timer] = []
 class TaskViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var buttonAdd: UIButton!
     @IBOutlet weak var myTableView: UITableView!
     var database: Connection!
-    
     let task_table = Table("task")
     let task_id = Expression<Int>("id")
     let task_title = Expression<String>("title")
@@ -26,7 +27,12 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        buttonAdd.layer.cornerRadius = buttonAdd.frame.height / 2
+        print(listTimer.count)
+        for timer in listTimer{
+            timer.invalidate()
+        }
+        listTimer.removeAll()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -55,7 +61,11 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        insertTableTask(task: task2)
 //        insertTableTask(task: task3)
         tasks = selectAllTasks()
-        print ("--> viewDidLoad fin")    }
+        print ("--> viewDidLoad fin")
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in})
+        
+    }
 
     // MARK: - Table view data source
 
@@ -71,8 +81,23 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellTask", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellTask", for: indexPath) as! TaskCell
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        if(tasks[indexPath.row].getDate() != ""){
+            let dateTimer = dateFormatter.date(from: tasks[indexPath.row].getDate())
+            cell.timeInterval = dateTimer!.timeIntervalSinceNow
+            cell.titleTask = tasks[indexPath.row].getTitle()
+            cell.dateTask = tasks[indexPath.row].getDate()
+            if(round(cell.timeInterval!) > 0){
+                listTimer.append(cell.timer!)
+                print(cell.timeInterval!)
+            }
+        }
+        
+        
+//        print("\(self.listTimer[indexPath.row])")
+        
         // Configure the cell...
         cell.textLabel?.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
         cell.detailTextLabel?.text = "\(tasks[indexPath.row].getDate())"
@@ -91,31 +116,50 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "Modify"){(action,view,completion) in
             completion(false)
-            print("chuyencontroller ")
+//            print("chuyencontroller ")
+//            let task = self.tasks[indexPath.row]
+//            self.deleteTask(id: task.getId())
+//            self.tasks.remove(at: indexPath.row)
+//            self.myTableView.reloadData()
+            let task = self.tasks[indexPath.row]
+            
+            let addToDoViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddToDo") as! AddTodoViewController
+            addToDoViewController.actionType = "modify"
+            addToDoViewController.toDoTitle = task.getTitle()
+            addToDoViewController.toDoId=task.getId()
+            
+            if  task.getDate() != "" {
+                print(task.getDate())
+                var dateStringArray=task.getDate().split(separator: " ")
+                addToDoViewController.date=String(dateStringArray[0])
+                addToDoViewController.time=String(dateStringArray[1])
+            }
+            
+            self.navigationController?.pushViewController(addToDoViewController, animated: true)
         }
         action.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [action])
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        myTableView.deselectRow(at: indexPath, animated: true)
-        
-        let task = tasks[indexPath.row]
-        
-        let addToDoViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddToDo") as! AddTodoViewController
-        addToDoViewController.actionType = "modify"
-        addToDoViewController.toDoTitle = task.getTitle()
-        addToDoViewController.toDoId=task.getId()
-        
-        if  task.getDate() != "" {
-            print(task.getDate())
-            var dateStringArray=task.getDate().split(separator: " ")
-            addToDoViewController.date=String(dateStringArray[0])
-            addToDoViewController.time=String(dateStringArray[1])
-        }
-        
-        self.navigationController?.pushViewController(addToDoViewController, animated: true)
-    }
+//    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        myTableView.deselectRow(at: indexPath, animated: true)
+//
+//        let task = tasks[indexPath.row]
+//
+//        let addToDoViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddToDo") as! AddTodoViewController
+//        addToDoViewController.actionType = "modify"
+//        addToDoViewController.toDoTitle = task.getTitle()
+//        addToDoViewController.toDoId=task.getId()
+//
+//        if  task.getDate() != "" {
+//            print(task.getDate())
+//            var dateStringArray=task.getDate().split(separator: " ")
+//            addToDoViewController.date=String(dateStringArray[0])
+//            addToDoViewController.time=String(dateStringArray[1])
+//        }
+//
+//        self.navigationController?.pushViewController(addToDoViewController, animated: true)
+//    }
     
     
     /*
@@ -205,6 +249,10 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         let task1 = Task(id:idTask, title: title, date: stringDateTime)
         updateTask(id: idTask, newTask: task1)
     }
+    
+    
+    
+    
     
     func createTableTask() {
         print ("--> createTableTask debut")
