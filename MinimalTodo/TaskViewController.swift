@@ -153,7 +153,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.navigationController?.pushViewController(addToDoViewController, animated: true)
         }
-        action.backgroundColor = .green
+        action.backgroundColor = UIColor(red: 0.15, green: 0.60, blue: 0.25, alpha: 1.0)
         return UISwipeActionsConfiguration(actions: [action])
     }
     
@@ -205,46 +205,54 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     */
     
     func doAddTask(title:String,date:String,time:String){
-        do {
-            let documentDirectory = try
-                FileManager.default.url(for: .documentDirectory,
-                                        in: .userDomainMask, appropriateFor: nil, create: true)
-            let fileUrl=documentDirectory.appendingPathComponent("task").appendingPathExtension("sqlite3")
-            let base = try Connection(fileUrl.path)
-            self.database = base;
+        if title=="" {
+            print("title vide")
+        }else{
+            do {
+                let documentDirectory = try
+                    FileManager.default.url(for: .documentDirectory,
+                                            in: .userDomainMask, appropriateFor: nil, create: true)
+                let fileUrl=documentDirectory.appendingPathComponent("task").appendingPathExtension("sqlite3")
+                let base = try Connection(fileUrl.path)
+                self.database = base;
+            }
+            catch {
+                print (error)
+            }
+            var stringDateTime:String=date+" "+time
+            print(stringDateTime)
+            if stringDateTime == " "{
+                stringDateTime=""
+            }
+            let task1 = Task(title: title, date: stringDateTime)
+            insertTableTask(task: task1)
+            print("done")
         }
-        catch {
-            print (error)
-        }
-        var stringDateTime:String=date+" "+time
-        print(stringDateTime)
-        if stringDateTime == " "{
-            stringDateTime=""
-        }
-        let task1 = Task(title: title, date: stringDateTime)
-        insertTableTask(task: task1)
-        print("doneee")
     }
     
     func doUpdateTask(idTask:Int,title:String,date:String,time:String){
-        do {
-            let documentDirectory = try
-                FileManager.default.url(for: .documentDirectory,
-                                        in: .userDomainMask, appropriateFor: nil, create: true)
-            let fileUrl=documentDirectory.appendingPathComponent("task").appendingPathExtension("sqlite3")
-            let base = try Connection(fileUrl.path)
-            self.database = base;
+        if title=="" {
+            print("title vide")
+        }else{
+            do {
+                let documentDirectory = try
+                    FileManager.default.url(for: .documentDirectory,
+                                            in: .userDomainMask, appropriateFor: nil, create: true)
+                let fileUrl=documentDirectory.appendingPathComponent("task").appendingPathExtension("sqlite3")
+                let base = try Connection(fileUrl.path)
+                self.database = base;
+            }
+            catch {
+                print (error)
+            }
+            var stringDateTime:String=date+" "+time
+            print(stringDateTime)
+            if stringDateTime == " "{
+                stringDateTime=""
+            }
+            let task1 = Task(id:idTask, title: title, date: stringDateTime)
+            updateTask(id: idTask, newTask: task1)
         }
-        catch {
-            print (error)
-        }
-        var stringDateTime:String=date+" "+time
-        print(stringDateTime)
-        if stringDateTime == " "{
-            stringDateTime=""
-        }
-        let task1 = Task(id:idTask, title: title, date: stringDateTime)
-        updateTask(id: idTask, newTask: task1)
     }
     
     
