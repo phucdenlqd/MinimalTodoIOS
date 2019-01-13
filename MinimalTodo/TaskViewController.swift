@@ -59,7 +59,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in})
         
-//        notifi(timeInterval: 5)
     }
 
     // MARK: - Table view data source
@@ -158,25 +157,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UISwipeActionsConfiguration(actions: [action])
     }
     
-//    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        myTableView.deselectRow(at: indexPath, animated: true)
-//
-//        let task = tasks[indexPath.row]
-//
-//        let addToDoViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddToDo") as! AddTodoViewController
-//        addToDoViewController.actionType = "modify"
-//        addToDoViewController.toDoTitle = task.getTitle()
-//        addToDoViewController.toDoId=task.getId()
-//
-//        if  task.getDate() != "" {
-//            print(task.getDate())
-//            var dateStringArray=task.getDate().split(separator: " ")
-//            addToDoViewController.date=String(dateStringArray[0])
-//            addToDoViewController.time=String(dateStringArray[1])
-//        }
-//
-//        self.navigationController?.pushViewController(addToDoViewController, animated: true)
-//    }
     
     
     /*
