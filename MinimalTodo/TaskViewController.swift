@@ -37,7 +37,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//         self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.navigationItem.hidesBackButton=true
         print ("--> viewDidLoad debut")
         // Do any additional setup after loading the view, typically from a nib.
@@ -54,12 +53,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         createTableTask();
-//        let task1 = Task(title: "dihocccfcfffdgfdgdfgdfgdfgdfgdfgdfgdfgfdgdfgfdgdfgdfgdfgdfgdfgdf", date: "12/05/2018")
-//        let task2 = Task(title: "di choi", date: "26/04/2011")
-//        let task3 = Task(title: "di", date: "26/04/2011")
-//        insertTableTask(task: task1)
-//        insertTableTask(task: task2)
-//        insertTableTask(task: task3)
+        
         tasks = selectAllTasks()
         print ("--> viewDidLoad fin")
         
@@ -91,7 +85,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
                 notifi(timeInterval: dateTimer!.timeIntervalSinceNow, titleTask: tasks[indexPath.row].getTitle(), dateTask: tasks[indexPath.row].getDate(), id: tasks[indexPath.row].getId())
             }
         }
-//        print("\(self.listTimer[indexPath.row])")
         
         // Configure the cell...
         cell.labelTitleTask.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
@@ -144,11 +137,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "Modify"){(action,view,completion) in
             completion(false)
-//            print("chuyencontroller ")
-//            let task = self.tasks[indexPath.row]
-//            self.deleteTask(id: task.getId())
-//            self.tasks.remove(at: indexPath.row)
-//            self.myTableView.reloadData()
+
             let task = self.tasks[indexPath.row]
             
             let addToDoViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddToDo") as! AddTodoViewController
@@ -280,29 +269,11 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    
+//    Gestion SQLite
     
     func createTableTask() {
         print ("--> createTableTask debut")
-//        if !self.tableExist {
-//            self.tableExist = true
-//            // Instruction pour faire un drop de la table USERS
-//            let dropTable = self.task_table.drop(ifExists: true)
-//            // Instruction pour faire un create de la table USERS
-//            let createTable = self.task_table.create { table in
-//                table.column(self.task_id, primaryKey: .autoincrement)
-//                table.column(self.task_title)
-//                table.column(self.task_date)
-//            }
-//            do {// Exécution du drop et du create
-//                try self.database.run(dropTable)
-//                try self.database.run(createTable)
-//                print ("Table task est créée")
-//            }
-//            catch {
-//                print (error)
-//            }
-//        }
+
         let createTable = self.task_table.create(ifNotExists:true) { table in
             table.column(self.task_id, primaryKey: .autoincrement)
             table.column(self.task_title)
