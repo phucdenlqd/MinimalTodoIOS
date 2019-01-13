@@ -86,7 +86,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         // Configure the cell...
-        cell.labelTitleTask.text = "\(tasks[indexPath.row].getId()). \(tasks[indexPath.row].getTitle())"
+        cell.labelTitleTask.text = "\(tasks[indexPath.row].getTitle())"
         cell.labelSubtitleTask.text = "\(tasks[indexPath.row].getDate())"
         cell.labelLogo.text=String(tasks[indexPath.row].getTitle().prefix(1)).uppercased()
         if  tasks[indexPath.row].getDate() == ""{
